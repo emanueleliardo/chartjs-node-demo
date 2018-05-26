@@ -1,4 +1,4 @@
-FROM node:5
+FROM node:8.11
 RUN apt-get update
 RUN apt-get install libcairo2-dev libpango1.0-dev libgif-dev libjpeg62-turbo-dev build-essential g++ -y
 ADD . ./
