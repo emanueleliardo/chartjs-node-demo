@@ -6,19 +6,19 @@
     "start": "grunt build && node ./bin/www"
   },
   "dependencies": {
-    "body-parser": "~1.15.1",
-    "chart.js": "^2.4.0",
-    "chartjs-node": "^1.4.0",
+    "body-parser": "^1.18.3",
+    "chart.js": "^2.7.2",
+    "chartjs-node": "^1.7.1",
     "cookie-parser": "~1.4.3",
     "debug": "^2.2.0",
     "ejs": "~2.4.1",
-    "express": "~4.13.4",
-    "grunt": "^1.0.1",
+    "express": "^4.16.3",
+    "grunt": "^1.0.2",
     "grunt-contrib-copy": "^1.0.0",
     "load-grunt-tasks": "^3.5.2",
-    "morgan": "~1.7.0",
+    "morgan": "^1.9.0",
     "nconf": "^0.8.4",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "^1.1.0",
