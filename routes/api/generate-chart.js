@@ -3,20 +3,7 @@ const router = express.Router();
 const ChartjsNode = require('chartjs-node');
 const config = require('../../modules/config');
 const debug = require('debug')('chartjs-node-demo:api:generate-chart');
-const azureStorage = require('azure-storage');
-const BbPromise = require('bluebird');
-const Guid = require('guid');
-function uploadChart (azureStorageAccount, azureStorageKey, chartStream) {
-    var blobService = BbPromise.promisifyAll(azureStorage.createBlobService(azureStorageAccount, azureStorageKey));
-    var blobName = Guid.raw();
-    debug('chartjs-node-demo/' + blobName + '.png');
-    debug(chartStream.stream);
-    debug('length: ' + chartStream.length);
-    return blobService.createBlockBlobFromStreamAsync('cdn', 'email/' + blobName + '.png', chartStream.stream, chartStream.length - 1)
-    .then(() => {
-        return 'https://' + azureStorageAccount + '.azureedge.net/email/' + blobName + '.png';
-    });
-}
+
 /* GET home page. */
 router.post('/', function(req, res) {
     var chartJsConfig = req.body;
@@ -25,16 +12,11 @@ router.post('/', function(req, res) {
     debug(chartJsConfig);
     debug('options: ' + req.body.options);
     return chartNode.drawChart(chartJsConfig)
-    .then(() => {
-        return chartNode.getImageStream('image/png');
-    })
-    .then(result => {
-        return uploadChart(config.get('AZURE_STORAGE_ACCOUNT'), config.get('AZURE_STORAGE_KEY'), result);
-    })
-    .then(link =>{
-        return res.status(200).send({
-            link: link
-        });
+    .then(()=> chartNode.getImageBuffer('image/png'))
+    .then(buffer => buffer.toString('base64'))
+    .then(base64 => {
+        const base64Image = `data:image/png;base64,${base64}`
+        return res.send({base64Image})
     })
     .catch(err => {
         debug(err);

@@ -136,7 +136,7 @@
           dataType: 'json',
           data: editor.getValue(),
           success: function (data) {
-            $('#chart-image').attr('src', data.link);
+            $('#chart-image').attr('src', data.base64Image);
             $('#preloader').hide();
             $('#chart-image').show();
             $('#generate-chart').show();
